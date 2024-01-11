@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+@import './config/colors';
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    
+    &:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px $c-blue-500;
+    }
+}
+
+body {
+    -webkit-font-smoothing: antiaLiased;
+    background-color: $c-gray-900;
+    color: $c-gray-100
+    
+    
+}
+
+body, input, textarea, button {
+    font-size: 400;
+    color: $c-gray-100
+}

@@ -1,0 +1,44 @@
+@import '../styles/config/variables';
+
+.ContactContainer {
+  width: 100%;
+  max-width: 1120px;
+  margin: 4rem auto 0;
+  padding: 0 1.5rem;
+}
+
+.ContactTable {
+    width: 100%;
+    margin-top: 1.5rem;
+  
+    div {
+      display: grid;
+      grid-template-columns: 5fr 2fr 2fr 1fr 1fr;
+      align-items: center;
+      gap: 8px;
+      margin: 10px 0;
+      padding: 1.25rem 2rem;
+      background: $c-gray-700;
+  
+      &:first-child {
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+      }
+  
+      &:last-child {
+        border-bottom-right-radius: 6px;
+        border-bottom-left-radius: 6px;
+      }
+    }
+  
+    span {
+      text-align: left;
+    }
+
+    button {
+        background-color: $c-red-200;
+        border: 0;
+        padding: 0.5rem;
+        cursor: pointer;
+    }
+}

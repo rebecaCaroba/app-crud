@@ -1,0 +1,21 @@
+@import '../../styles/config/variables';
+
+
+.HeaderTable {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    input {
+        padding: 0.5rem;
+        border: 0;
+        background: $c-gray-700;
+    }
+
+    button {
+        background-color: $c-purple-300;
+        padding: 0.5rem;
+        border: 0;
+        cursor: pointer;
+    }
+}
