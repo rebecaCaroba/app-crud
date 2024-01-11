@@ -1,0 +1,83 @@
+@import '../../styles/config/variables';
+
+.overlay {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.content-modal {
+  min-width: 32rem;
+  border-radius: 6px;
+  padding: 2.5rem 3rem;
+  background: $c-gray-700;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  input {
+    height: 46px;
+    border-radius: 6px;
+    border: 0;
+    background: $c-gray-600;
+    color: $c-gray-300;
+    padding: 1rem;
+
+    &::placeholder {
+      color: $c-gray-400;
+    }
+  }
+
+  button[type="submit"] {
+    height: 46px;
+    border: 0;
+    background: $c-gray-600;
+    color: $c-gray-300;
+    border-radius: 6px;
+    font-weight: 700;
+    padding: 0 1.25rem;
+    margin-top: 1.5rem;
+    transition: background-color 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      background: $c-purple-300;
+    }
+  }
+}
+
+.radioContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    input {
+    width: 130px;
+    border-radius: 6px;
+    border: 0;
+    background: $c-gray-700;
+    color: $c-gray-300;
+    padding: 1rem;
+    }
+}
+
+.close-button {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  line-height: 0;
+  border: 0;
+  background: transparent;
+  color: $c-gray-300;
+  cursor: pointer;
+}
