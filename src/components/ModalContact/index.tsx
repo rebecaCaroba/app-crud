@@ -1,9 +1,11 @@
 'use client'
 import * as Dialog from '@radix-ui/react-dialog';
 import './style.scss';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+import { api } from '@/lib/axios';
+import { AxiosError } from 'axios';
 
 const newContactFormSchema = z.object({
     name: z.string(),
@@ -12,10 +14,10 @@ const newContactFormSchema = z.object({
     .min(1, {message: 'Email inválido'})
     .email('Email inválido'),
     phone: z
-    .string()
-    .refine((value) => /\(\d{2}\)\s\d{4,5}-\d{4}/.test(value), {
-      message: 'Número de telefone inválido',
-    }),
+    .string(),
+    // .refine((value) => /\(\d{2}\)\s\d{4,5}-\d{4}/.test(value), {
+    //   message: 'Número de telefone inválido',
+    // }),
     type: z.enum(['M', 'F'])
   })
 
@@ -31,7 +33,20 @@ const newContactFormSchema = z.object({
     })
 
   async function handleCreateNewContact(data: NewTransactionInputs) {
-    console.log(data)
+    try {
+        await api.post('/contact', {
+            nome: data.name,
+            email: data.email,
+            telefone: data.phone,
+            sexo: data.type,
+        })
+    } catch (err) {
+        if (err instanceof AxiosError && err?.response?.data?.message) {
+            alert(err.response.data.message)
+            return
+          }
+        console.log(err)
+    }
   }
   
     return (
