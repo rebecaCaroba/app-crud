@@ -19,7 +19,7 @@ export function SearchForm() {
       })
 
     async function handleSearchContact(data: SearchFormInputs) {
-       await console.log(data.query)
+        console.log(data.query)
     }
 
     return (

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 import '../styles/global.scss'
+import { Provider } from '@/Providers/providers'
 
 export const metadata: Metadata = {
   title: 'App CRUD',
@@ -15,7 +16,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <Provider>
+          {children}  
+        </Provider>
+      </body>
     </html>
   )
 }

@@ -4,8 +4,8 @@ import './style.scss';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { api } from '@/lib/axios';
-import { AxiosError } from 'axios';
+import { useContactContext } from '@/context/ContactContext';
+
 
 const newContactFormSchema = z.object({
     name: z.string(),
@@ -15,9 +15,6 @@ const newContactFormSchema = z.object({
     .email('Email inválido'),
     phone: z
     .string(),
-    // .refine((value) => /\(\d{2}\)\s\d{4,5}-\d{4}/.test(value), {
-    //   message: 'Número de telefone inválido',
-    // }),
     type: z.enum(['M', 'F'])
   })
 
@@ -25,6 +22,7 @@ const newContactFormSchema = z.object({
 
   export function ModalContact() {
   const {
+      reset,
       register,
       handleSubmit,
       formState: { isSubmitting },
@@ -32,21 +30,19 @@ const newContactFormSchema = z.object({
       resolver: zodResolver(newContactFormSchema),
     })
 
+  const { creatContact } = useContactContext()
+
   async function handleCreateNewContact(data: NewTransactionInputs) {
-    try {
-        await api.post('/contact', {
-            nome: data.name,
-            email: data.email,
-            telefone: data.phone,
-            sexo: data.type,
-        })
-    } catch (err) {
-        if (err instanceof AxiosError && err?.response?.data?.message) {
-            alert(err.response.data.message)
-            return
-          }
-        console.log(err)
-    }
+    const { name, email, phone, type } = data
+
+    await creatContact({
+      name, 
+      email, 
+      phone, 
+      type
+    })
+
+    reset()
   }
   
     return (
