@@ -37,24 +37,30 @@
       color: $c-gray-400;
     }
   }
+}
 
-  button[type="submit"] {
-    height: 46px;
-    border: 0;
-    background: $c-gray-600;
-    color: $c-gray-300;
-    border-radius: 6px;
-    font-weight: 700;
-    padding: 0 1.25rem;
-    margin-top: 1.5rem;
-    transition: background-color 0.2s;
-    cursor: pointer;
+.buttonSubmit {
+  height: 46px;
+  border: 0;
+  background: $c-gray-600;
+  color: $c-gray-300;
+  border-radius: 6px;
+  font-weight: 700;
+  padding: 0 1.25rem;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s;
+  cursor: pointer;
 
-    &:hover {
-      background: $c-purple-300;
-    }
+  &:hover {
+    background: $c-purple-300;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 }
+
 
 .radioContainer {
     display: flex;

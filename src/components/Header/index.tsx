@@ -1,5 +1,6 @@
 'use client'
 import { ModalContact } from '../ModalContact'
+import { SearchForm } from '../SearchForm'
 import './style.scss'
 import * as Dialog from '@radix-ui/react-dialog'
 
@@ -12,10 +13,7 @@ export function Header() {
                 </Dialog.Trigger>
                 <ModalContact />    
             </Dialog.Root>
-            <form>
-                <input type="text" placeholder="Busque por contatos" />
-                <button type="submit">Buscar</button>
-            </form>
+            <SearchForm />
         </header>
     )
 }

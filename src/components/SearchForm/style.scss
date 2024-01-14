@@ -1,0 +1,8 @@
+@import '../../styles/config/variables';
+
+.btnSearch {
+    &:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+}

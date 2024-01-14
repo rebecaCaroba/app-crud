@@ -9,15 +9,12 @@ export async function POST( req: NextRequest ) {
 
     const { nome, email, telefone, sexo } = data
 
-    console.log(data)
-
     const mysql = await MySQL()
     const query = `INSERT INTO pessoas (nome, email, telefone, sexo) VALUES (?, ?, ?, ?)`;
     const values = [nome, email, telefone, sexo]
 
     const [rows] = await mysql.execute(query, values)
     
-    // Extremamente importante. Encerrar a conexão.
     await mysql.end() 
  
     return NextResponse.json( rows )

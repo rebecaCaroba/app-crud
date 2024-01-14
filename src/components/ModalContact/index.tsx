@@ -96,7 +96,7 @@ const newContactFormSchema = z.object({
                   {...register('type', { required: 'Escolha uma opção' })}
                 />
               </div>
-              <button type="submit" disabled={isSubmitting}>Adicionar</button>
+              <button className='buttonSubmit' type="submit" disabled={isSubmitting}>Adicionar</button>
             </form>
           </div>
         </Dialog.Content>
