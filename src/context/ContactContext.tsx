@@ -34,17 +34,22 @@ interface ContactProviderProps {
 export function ContactProvider({ children }: ContactProviderProps) {
   const [contacts, setContacts] = useState<ContactProps[]>([])
 
+  const handleApiError = (err: any) => {
+    if (err instanceof AxiosError && err?.response?.data?.message) {
+      alert(err.response.data.message)
+      return
+    }
+    console.log(err)
+    
+  }
+
   const deleteContact = useCallback(async (id: number) => {
     try {
       await api.delete(`/delete-contact/${id}`)
       setContacts((state) => state.filter((contact) => contact.id !== id))
       
     } catch (err) {
-      if (err instanceof AxiosError && err?.response?.data?.message) {
-        alert(err.response.data.message)
-        return
-      }
-      console.log(err)
+      handleApiError(err)
     }
   }, [])
 
@@ -54,11 +59,7 @@ export function ContactProvider({ children }: ContactProviderProps) {
 
       setContacts(response.data)
     } catch (err) {
-      if (err instanceof AxiosError && err?.response?.data?.message) {
-        alert(err.response.data.message)
-        return
-      }
-      console.error(err)
+      handleApiError(err)
     }
   }, []) 
 
@@ -73,11 +74,7 @@ export function ContactProvider({ children }: ContactProviderProps) {
 
       fetchContact()
     } catch (err) {
-      if (err instanceof AxiosError && err?.response?.data?.message) {
-        alert(err.response.data.message)
-        return
-      }
-      console.error(err)
+      handleApiError(err)
     }
   }, [])
 
