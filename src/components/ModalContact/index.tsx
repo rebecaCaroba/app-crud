@@ -8,14 +8,14 @@ import { useContactContext } from '@/context/ContactContext';
 
 
 const newContactFormSchema = z.object({
-    name: z.string(),
+    nome: z.string(),
     email: z.
     string()
     .min(1, {message: 'Email inválido'})
     .email('Email inválido'),
-    phone: z
+    telefone: z
     .string(),
-    type: z.enum(['M', 'F'])
+    sexo: z.enum(['M', 'F'])
   })
 
   type NewTransactionInputs = z.infer<typeof newContactFormSchema>
@@ -33,13 +33,13 @@ const newContactFormSchema = z.object({
   const { creatContact } = useContactContext()
 
   async function handleCreateNewContact(data: NewTransactionInputs) {
-    const { name, email, phone, type } = data
+    const { nome, email, telefone, sexo } = data
 
     await creatContact({
-      name, 
+      nome, 
       email, 
-      phone, 
-      type
+      telefone, 
+      sexo
     })
 
     reset()
@@ -58,7 +58,7 @@ const newContactFormSchema = z.object({
               <input
                 type="text"
                 placeholder="Digite o nome"
-                {...register('name')}
+                {...register('nome')}
                 required
               />
   
@@ -72,7 +72,7 @@ const newContactFormSchema = z.object({
               <input
                 type="text"
                 placeholder="(XX) XXXXX-XXXX"
-                {...register('phone')}
+                {...register('telefone')}
                 required
               />
               <div className="radioContainer">
@@ -81,7 +81,7 @@ const newContactFormSchema = z.object({
                   type="radio"
                   id="mas"
                   value="M"
-                  {...register('type', { required: 'Escolha uma opção' })}
+                  {...register('sexo', { required: 'Escolha uma opção' })}
                 />
   
                 <label htmlFor="fem">Feminino</label>
@@ -89,7 +89,7 @@ const newContactFormSchema = z.object({
                   type="radio"
                   id="fem"
                   value="F"
-                  {...register('type', { required: 'Escolha uma opção' })}
+                  {...register('sexo', { required: 'Escolha uma opção' })}
                 />
               </div>
               <button className='buttonSubmit' type="submit" disabled={isSubmitting}>Adicionar</button>

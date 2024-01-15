@@ -1,26 +1,27 @@
 'use client'
-import { createContext, useCallback, useContext, ReactNode, useState } from 'react'
+import { createContext, useCallback, useContext, ReactNode, useState, useEffect } from 'react'
 import { api } from '@/lib/axios'
 import { AxiosError } from 'axios'
 
 interface ContactProps {
   id: number
-  name: string
+  nome: string
   email: string
-  phone: string
-  type: 'F' | 'M'
+  telefone: string
+  sexo: 'F' | 'M'
 }
 
 interface ContactInput {
-  name: string
+  nome: string
   email: string
-  phone: string
-  type: 'F' | 'M'
+  telefone: string
+  sexo: 'F' | 'M'
 }
 
 interface ContactContextType {
-  contact: ContactProps[]
+  contacts: ContactProps[]
   creatContact: (data: ContactInput) => Promise<void>
+  fetchContact: (query?: string) => Promise<void>
 }
 
 export const ContactContext = createContext({} as ContactContextType)
@@ -30,18 +31,32 @@ interface ContactProviderProps {
 }
 
 export function ContactProvider({ children }: ContactProviderProps) {
-  const [contact, setContact] = useState<ContactProps[]>([])
+  const [contacts, setContacts] = useState<ContactProps[]>([])
+
+  const fetchContact = useCallback(async (query?: string) => {
+    try {
+      const response = await api.get('/get-contact')
+
+      setContacts(response.data)
+    } catch (err) {
+      if (err instanceof AxiosError && err?.response?.data?.message) {
+        alert(err.response.data.message)
+        return
+      }
+      console.error(err)
+    }
+  }, []) 
 
   const creatContact = useCallback(async (data: ContactInput) => {
     try {
-      const response = await api.post('/contact', {
-        nome: data.name,
+      await api.post('/contact', {
+        nome: data.nome,
         email: data.email,
-        telefone: data.phone,
-        sexo: data.type,
+        telefone: data.telefone,
+        sexo: data.sexo,
       })
 
-      setContact((state) => [response.data, ...state])
+      fetchContact()
     } catch (err) {
       if (err instanceof AxiosError && err?.response?.data?.message) {
         alert(err.response.data.message)
@@ -51,11 +66,16 @@ export function ContactProvider({ children }: ContactProviderProps) {
     }
   }, [])
 
+  useEffect(() => {
+    fetchContact()
+  }, [fetchContact])
+
   return (
     <ContactContext.Provider
       value={{
-        contact,
+        contacts,
         creatContact,
+        fetchContact
       }}
     >
       {children}

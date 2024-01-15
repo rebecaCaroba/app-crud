@@ -1,29 +1,41 @@
+'use client'
 import { Header } from "@/components/Header"
 import './style.scss'
+import { useContactContext } from "@/context/ContactContext"
 
 export default function Home() {
+  const { contacts } = useContactContext()
+
   return (
-    <div> 
+    <div>
       <h1>CRUD em Next e mySQL</h1>
-        <main className="ContactContainer">
-          <Header />
-          <section className="ContactTable">
-              <div>
-                <small>Nome</small>
-                <small>Email</small>
-                <small>Telefone</small>
-                <small>Sexo</small>
-                <small>Ação</small>
-              </div>
-              <div>
-                <span>Rebeca</span>
-                <span>rebeca@gmail.com</span>
-                <span>(11) 94002-8922</span>
-                <span>F</span>
+      <main className="ContactContainer">
+        <Header />
+        <section className="ContactTable">
+          <div>
+            <small>Nome</small>
+            <small>Email</small>
+            <small>Telefone</small>
+            <small>Sexo</small>
+            <small>Ação</small>
+          </div>
+          {contacts.length == 0 ? (
+            <div>
+              <p>Nenhum contato disponível</p>
+            </div>
+          ): (
+            contacts.map((contact) => (
+              <div key={contact.id}>
+                <span>{contact.nome}</span>
+                <span>{contact.email}</span>
+                <span>{contact.telefone}</span>
+                <span>{contact.sexo}</span>
                 <span><button>Excluir</button></span>
               </div>
-          </section>
-        </main>
+            ))
+          ) }
+        </section>
+      </main>
     </div>
   )
 }
