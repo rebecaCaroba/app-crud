@@ -4,7 +4,11 @@ import './style.scss'
 import { useContactContext } from "@/context/ContactContext"
 
 export default function Home() {
-  const { contacts } = useContactContext()
+  const { contacts, deleteContact } = useContactContext()
+
+  const handleDeleteContact = async (id:number) => {
+    await deleteContact(id)
+  }
 
   return (
     <div>
@@ -30,7 +34,7 @@ export default function Home() {
                 <span>{contact.email}</span>
                 <span>{contact.telefone}</span>
                 <span>{contact.sexo}</span>
-                <span><button>Excluir</button></span>
+                <span><button onClick={() => handleDeleteContact(contact.id)}>Excluir</button></span>
               </div>
             ))
           ) }

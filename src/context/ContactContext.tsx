@@ -22,6 +22,7 @@ interface ContactContextType {
   contacts: ContactProps[]
   creatContact: (data: ContactInput) => Promise<void>
   fetchContact: (query?: string) => Promise<void>
+  deleteContact: (id: number) => Promise<void>
 }
 
 export const ContactContext = createContext({} as ContactContextType)
@@ -32,6 +33,20 @@ interface ContactProviderProps {
 
 export function ContactProvider({ children }: ContactProviderProps) {
   const [contacts, setContacts] = useState<ContactProps[]>([])
+
+  const deleteContact = useCallback(async (id: number) => {
+    try {
+      await api.delete(`/delete-contact/${id}`)
+      setContacts((state) => state.filter((contact) => contact.id !== id))
+      
+    } catch (err) {
+      if (err instanceof AxiosError && err?.response?.data?.message) {
+        alert(err.response.data.message)
+        return
+      }
+      console.log(err)
+    }
+  }, [])
 
   const fetchContact = useCallback(async (query?: string) => {
     try {
@@ -75,7 +90,8 @@ export function ContactProvider({ children }: ContactProviderProps) {
       value={{
         contacts,
         creatContact,
-        fetchContact
+        fetchContact,
+        deleteContact
       }}
     >
       {children}
