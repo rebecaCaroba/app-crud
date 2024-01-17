@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import './style.scss'
+import { useContactContext } from "@/context/ContactContext"
 
 const searchFormSchema = z.object({
     query: z.string(),
@@ -10,6 +11,8 @@ const searchFormSchema = z.object({
 type SearchFormInputs = z.infer<typeof searchFormSchema>
 
 export function SearchForm() {
+    const { fetchContact } = useContactContext()
+
     const {
         register,
         handleSubmit,
@@ -19,7 +22,7 @@ export function SearchForm() {
       })
 
     async function handleSearchContact(data: SearchFormInputs) {
-        console.log(data.query)
+        await fetchContact(data.query)
     }
 
     return (

@@ -54,8 +54,12 @@ export function ContactProvider({ children }: ContactProviderProps) {
   }, [])
 
   const fetchContact = useCallback(async (query?: string) => {
+    if(query === undefined){
+      query = 'showall'
+    }
+
     try {
-      const response = await api.get('/get-contact')
+      const response = await api.get(`get-contact/${query}`)
 
       setContacts(response.data)
     } catch (err) {
@@ -80,7 +84,7 @@ export function ContactProvider({ children }: ContactProviderProps) {
 
   useEffect(() => {
     fetchContact()
-  }, [fetchContact])
+  }, [])
 
   return (
     <ContactContext.Provider
