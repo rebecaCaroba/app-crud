@@ -6,7 +6,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import { useContactContext } from '@/context/ContactContext';
 
-
 const newContactFormSchema = z.object({
     nome: z.string(),
     email: z.
@@ -14,7 +13,8 @@ const newContactFormSchema = z.object({
     .min(1, {message: 'Email inválido'})
     .email('Email inválido'),
     telefone: z
-    .string(),
+    .string()
+    .regex(/[^\d()+-]/g, {message: 'Apenas números, hífens e parênteses'}),
     sexo: z.enum(['M', 'F'])
   })
 
@@ -25,12 +25,20 @@ const newContactFormSchema = z.object({
       reset,
       register,
       handleSubmit,
+      setValue,
       formState: { isSubmitting },
     } = useForm<NewTransactionInputs>({
       resolver: zodResolver(newContactFormSchema),
     })
 
   const { creatContact } = useContactContext()
+
+  function formatPhoneNumber(value:string) {
+    const phoneNumber = value.replace(/\D/g, '');
+    const formattedPhoneNumber = `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2, 7)}-${phoneNumber.slice(7, 11)}`;
+    console.log(formatPhoneNumber)
+    setValue('telefone', formattedPhoneNumber);
+  }
 
   async function handleCreateNewContact(data: NewTransactionInputs) {
     const { nome, email, telefone, sexo } = data
@@ -72,7 +80,9 @@ const newContactFormSchema = z.object({
               <input
                 type="text"
                 placeholder="(XX) XXXXX-XXXX"
-                {...register('telefone')}
+                onChange={(e) => formatPhoneNumber(e.target.value)}
+                minLength={6}
+                maxLength={15}
                 required
               />
               <div className="radioContainer">
